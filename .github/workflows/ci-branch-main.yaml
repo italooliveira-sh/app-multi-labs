@@ -1,0 +1,16 @@
+name: CI para integração na branch main
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validar_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificar branch de origem
+        if: ${{ github.event.pull_request.base.ref == 'main' && !startsWith(github.event.pull_request.head.ref, 'release/') }}
+        run: |
+          echo "❌ Apenas merges da branch release são permitidos na main."
+          exit 1
