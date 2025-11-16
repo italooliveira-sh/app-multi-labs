@@ -1,3 +1,19 @@
 spring:
   application:
     name: app-multi-labs
+  datasource:
+    url: "jdbc:postgresql://${URI_DATABASE}:${PORT_DATABASE}/${NAME_DATABASE}"
+    username: "${USER_DATABASE}"
+    password: "${PASSWORD_DATABASE}"
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  config:
+    import: optional:file:.env[.properties]
+
