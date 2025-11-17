@@ -1,0 +1,10 @@
+CREATE TABLE tarefa(
+  id BIGDECIMAL PRIMARY KEY,
+  titulo VARCHAR(150) NOT NULL,
+  descricao TEXT,
+  status VARCHAR(30) NOT NULL,
+  prioridade VARCHAR(30) NOT NULL,
+
+  criado_em TIMESTAMP WITHOUT ZONE DEFAULT NOW() NOT NULL,
+  atualizado_em TIMESTAMP WITHOUT ZONE
+);
