@@ -22,11 +22,12 @@ public class TarefaMapper {
 
   public TarefaResponseDto fromEntity(Tarefa tarefa) {
     return new TarefaResponseDto(
-      tarefa.getId(), 
-      tarefa.getTitulo(), 
-      tarefa.getDescricao(), 
-      tarefa.getStatus().toString(),
-      tarefa.getPrioridade().toString()
+            tarefa.getId(),
+            tarefa.getTitulo(),
+            tarefa.getDescricao(),
+            tarefa.getStatus().toString(),
+            tarefa.getPrioridade().toString(),
+            tarefa.getCriadoEm().toString()
     );
   }
   
