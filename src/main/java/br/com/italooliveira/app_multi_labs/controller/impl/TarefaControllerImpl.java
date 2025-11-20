@@ -1,0 +1,33 @@
+package br.com.italooliveira.app_multi_labs.controller.impl;
+
+import java.net.URI;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.italooliveira.app_multi_labs.controller.TarefaController;
+import br.com.italooliveira.app_multi_labs.dtos.TarefaRequestDto;
+import br.com.italooliveira.app_multi_labs.dtos.TarefaResponseDto;
+import br.com.italooliveira.app_multi_labs.service.TarefaService;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequiredArgsConstructor
+public class TarefaControllerImpl implements TarefaController{
+
+  private final TarefaService tarefaService;
+
+  @Override
+  public ResponseEntity<TarefaResponseDto> novaTarefa(TarefaRequestDto requestDto) {
+    TarefaResponseDto tarefaSalva = tarefaService.save(requestDto);
+    URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequestUri()
+                .path("/{id}")
+                .buildAndExpand(tarefaSalva.id())
+                .toUri();
+
+    return ResponseEntity.created(uri).body(tarefaSalva);
+  }
+  
+}
