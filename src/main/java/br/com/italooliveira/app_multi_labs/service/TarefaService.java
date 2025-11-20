@@ -6,5 +6,7 @@ import br.com.italooliveira.app_multi_labs.dtos.TarefaResponseDto;
 public interface TarefaService {
 
   TarefaResponseDto save(TarefaRequestDto requestDto);
+
+  TarefaResponseDto getById(Long idTarefa);
   
 }
