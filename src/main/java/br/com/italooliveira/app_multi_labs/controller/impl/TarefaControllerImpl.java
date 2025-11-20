@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TarefaControllerImpl implements TarefaController{
 
-  final private TarefaService tarefaService;
+  private final TarefaService tarefaService;
 
   @Override
   public ResponseEntity<TarefaResponseDto> novaTarefa(TarefaRequestDto requestDto) {

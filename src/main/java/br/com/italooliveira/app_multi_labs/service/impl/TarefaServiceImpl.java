@@ -15,8 +15,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TarefaServiceImpl implements TarefaService{
 
-  final private TarefaRepository tarefaRepository;
-  final private TarefaMapper tarefaMapper;
+  private final TarefaRepository tarefaRepository;
+  private final TarefaMapper tarefaMapper;
 
   @Override
   @Transactional

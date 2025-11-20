@@ -85,6 +85,7 @@ public class TarefaControllerImplTest {
             )
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.path").value(BASE_URI))
+            .andExpect(jsonPath("$.mensagem").value("Status não pode ser vazio"))
             .andExpect(result -> assertInstanceOf(StatusTarefaInvalidaException.class, result.getResolvedException()));
   }
 

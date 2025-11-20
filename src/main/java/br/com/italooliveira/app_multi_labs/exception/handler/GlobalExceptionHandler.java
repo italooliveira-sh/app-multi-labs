@@ -1,4 +1,4 @@
-package br.com.italooliveira.app_multi_labs.exception.handlerExceptions;
+package br.com.italooliveira.app_multi_labs.exception.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,7 +11,7 @@ import br.com.italooliveira.app_multi_labs.exception.StatusTarefaInvalidaExcepti
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
-public class GlobalHandlerException {
+public class GlobalExceptionHandler {
 
   @ExceptionHandler(PrioridadeTarefaInvalidaException.class)
   public ResponseEntity<MensagemPadraoErro> handlerPrioridadeTarefaNotFound(PrioridadeTarefaInvalidaException ex,
