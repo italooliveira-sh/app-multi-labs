@@ -2,7 +2,7 @@ package br.com.italooliveira.app_multi_labs.entity.enuns;
 
 import java.util.Arrays;
 
-import br.com.italooliveira.app_multi_labs.exception.StatusTarefaInvalida;
+import br.com.italooliveira.app_multi_labs.exception.StatusTarefaInvalidaException;
 
 public enum StatusTarefa {
   PENDENTE,
@@ -12,12 +12,12 @@ public enum StatusTarefa {
 
   public static StatusTarefa fromString(String status) {
     if (status == null || status.isBlank()) {
-      throw new StatusTarefaInvalida("Status não pode ser vazio");
+      throw new StatusTarefaInvalidaException("Status não pode ser vazio");
     }
 
     return Arrays.stream(StatusTarefa.values())
               .filter(s -> s.name().equalsIgnoreCase(status.trim()))
               .findFirst()
-              .orElseThrow(() -> new StatusTarefaInvalida(String.format("Status inválido: %s", status)));
+              .orElseThrow(() -> new StatusTarefaInvalidaException(String.format("Status inválido: %s", status)));
   }
 }

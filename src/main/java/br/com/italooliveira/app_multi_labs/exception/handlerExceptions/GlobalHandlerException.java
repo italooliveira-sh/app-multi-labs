@@ -1,22 +1,20 @@
 package br.com.italooliveira.app_multi_labs.exception.handlerExceptions;
 
-import java.time.LocalDateTime;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import br.com.italooliveira.app_multi_labs.exception.PrioridadeTarefaInvalida;
-import br.com.italooliveira.app_multi_labs.exception.StatusTarefaInvalida;
+import br.com.italooliveira.app_multi_labs.exception.PrioridadeTarefaInvalidaException;
+import br.com.italooliveira.app_multi_labs.exception.StatusTarefaInvalidaException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
 public class GlobalHandlerException {
 
-  @ExceptionHandler(PrioridadeTarefaInvalida.class)
-  public ResponseEntity<MensagemPadraoErro> handlerPrioridadeTarefaNotFound(PrioridadeTarefaInvalida ex,
+  @ExceptionHandler(PrioridadeTarefaInvalidaException.class)
+  public ResponseEntity<MensagemPadraoErro> handlerPrioridadeTarefaNotFound(PrioridadeTarefaInvalidaException ex,
                                                                             HttpServletRequest request) {
     HttpStatus status = HttpStatus.BAD_REQUEST;
 
@@ -24,8 +22,8 @@ public class GlobalHandlerException {
     return ResponseEntity.status(status).contentType(MediaType.APPLICATION_JSON).body(erro);
   }
   
-  @ExceptionHandler(StatusTarefaInvalida.class)
-  public ResponseEntity<MensagemPadraoErro> handlerStatusTarefaNotFound(StatusTarefaInvalida ex,
+  @ExceptionHandler(StatusTarefaInvalidaException.class)
+  public ResponseEntity<MensagemPadraoErro> handlerStatusTarefaNotFound(StatusTarefaInvalidaException ex,
                                                                         HttpServletRequest request) {
     HttpStatus status = HttpStatus.BAD_REQUEST;
 

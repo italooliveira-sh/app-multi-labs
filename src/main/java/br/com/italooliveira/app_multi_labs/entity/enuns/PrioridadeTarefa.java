@@ -3,7 +3,7 @@ package br.com.italooliveira.app_multi_labs.entity.enuns;
 import lombok.Getter;
 import java.util.Arrays;
 
-import br.com.italooliveira.app_multi_labs.exception.PrioridadeTarefaInvalida;
+import br.com.italooliveira.app_multi_labs.exception.PrioridadeTarefaInvalidaException;
 
 @Getter
 public enum PrioridadeTarefa {
@@ -14,13 +14,13 @@ public enum PrioridadeTarefa {
 
     public static PrioridadeTarefa fromString(String prioridade) {
         if (prioridade == null || prioridade.isBlank()) {
-            throw new PrioridadeTarefaInvalida("Prioridade não pode ser vazia");
+            throw new PrioridadeTarefaInvalidaException("Prioridade não pode ser vazia");
         }
 
         return Arrays.stream(PrioridadeTarefa.values())
                 .filter(v -> v.name().equalsIgnoreCase(prioridade.trim()))
                 .findFirst()
-                .orElseThrow(() -> new PrioridadeTarefaInvalida(String.format("Prioridade inválida: %s", prioridade)));
+                .orElseThrow(() -> new PrioridadeTarefaInvalidaException(String.format("Prioridade inválida: %s", prioridade)));
     }
 }
 
