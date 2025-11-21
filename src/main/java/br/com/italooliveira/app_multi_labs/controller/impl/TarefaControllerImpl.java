@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class TarefaControllerImpl implements TarefaController{
+public class TarefaControllerImpl implements TarefaController {
 
   private final TarefaService tarefaService;
 
@@ -29,5 +29,11 @@ public class TarefaControllerImpl implements TarefaController{
 
     return ResponseEntity.created(uri).body(tarefaSalva);
   }
-  
+
+  @Override
+  public ResponseEntity<TarefaResponseDto> obterTarefaPeloId(Long idTarefa) {
+
+    return ResponseEntity.ok(tarefaService.getById(idTarefa));
+  }
+
 }

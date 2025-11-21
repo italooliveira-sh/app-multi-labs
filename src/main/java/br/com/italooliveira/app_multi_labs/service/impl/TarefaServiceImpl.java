@@ -1,5 +1,6 @@
 package br.com.italooliveira.app_multi_labs.service.impl;
 
+import br.com.italooliveira.app_multi_labs.exception.TarefaNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class TarefaServiceImpl implements TarefaService{
+public class TarefaServiceImpl implements TarefaService {
 
   private final TarefaRepository tarefaRepository;
   private final TarefaMapper tarefaMapper;
@@ -24,5 +25,17 @@ public class TarefaServiceImpl implements TarefaService{
     Tarefa tarefa = tarefaMapper.toEntity(requestDto);
     return tarefaMapper.fromEntity(tarefaRepository.save(tarefa));
   }
-  
+
+  @Override
+  @Transactional(readOnly = true)
+  public TarefaResponseDto getById(Long idTarefa) {
+    return tarefaMapper.fromEntity(findTarefaById(idTarefa));
+  }
+
+  private Tarefa findTarefaById(Long idTarefa) {
+    return tarefaRepository.findById(idTarefa).orElseThrow(
+            () -> new TarefaNotFoundException(String.format("Tarefa com o id: %d não foi encontrado", idTarefa))
+    );
+  }
+
 }
