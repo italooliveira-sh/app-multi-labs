@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import br.com.italooliveira.app_multi_labs.exception.PrioridadeTarefaInvalidaException;
 import br.com.italooliveira.app_multi_labs.exception.StatusTarefaInvalidaException;
 import br.com.italooliveira.app_multi_labs.exception.TarefaNotFoundException;
+import br.com.italooliveira.app_multi_labs.mapper.TarefaMapper;
 import br.com.italooliveira.app_multi_labs.service.TarefaService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
@@ -37,6 +38,9 @@ public class TarefaControllerImplTest {
 
   @Autowired
   private TarefaService tarefaService;
+
+  @Autowired
+  private TarefaMapper tarefaMapper;
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -150,5 +154,27 @@ public class TarefaControllerImplTest {
     )
             .andExpect(status().isNotFound())
             .andExpect(result -> assertInstanceOf(TarefaNotFoundException.class, result.getResolvedException()));
+  }
+
+  @Test
+  public void obterTodasTarefaDeveRetornarStatusOk() throws Exception {
+    var request = TarefaFactory.listaTarefasRequest();
+    var listaTarefasEntity = request.stream().map(tarefaMapper::toEntity).toList();
+    tarefaRepository.saveAll(listaTarefasEntity);
+
+    mockMvc.perform(
+                    get(BASE_URI)
+                            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$.length()").value(3))
+            .andExpect(jsonPath("$[0].id").isNotEmpty())
+            .andExpect(jsonPath("$[0].titulo").value(request.get(0).titulo()))
+            .andExpect(jsonPath("$[1].titulo").value(request.get(1).titulo()))
+            .andExpect(jsonPath("$[2].titulo").value(request.get(2).titulo()))
+            .andExpect(jsonPath("$[0].status").value(request.get(0).status().toUpperCase()))
+            .andExpect(jsonPath("$[1].status").value(request.get(1).status().toUpperCase()))
+            .andExpect(jsonPath("$[2].status").value(request.get(2).status().toUpperCase()));
   }
 }
