@@ -1,6 +1,7 @@
 package br.com.italooliveira.app_multi_labs.controller.impl;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,11 @@ public class TarefaControllerImpl implements TarefaController {
   public ResponseEntity<TarefaResponseDto> obterTarefaPeloId(Long idTarefa) {
 
     return ResponseEntity.ok(tarefaService.getById(idTarefa));
+  }
+
+  @Override
+  public ResponseEntity<List<TarefaResponseDto>> obterTodasTarefa() {
+    return ResponseEntity.ok(tarefaService.getAll());
   }
 
 }
