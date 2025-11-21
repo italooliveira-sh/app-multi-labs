@@ -177,4 +177,92 @@ public class TarefaControllerImplTest {
             .andExpect(jsonPath("$[1].status").value(request.get(1).status().toUpperCase()))
             .andExpect(jsonPath("$[2].status").value(request.get(2).status().toUpperCase()));
   }
+
+  @Test
+  public void atualizarTarefaDeveRetornarStatusOkQuandoEnviarSomenteTitulo() throws Exception {
+    var salvarTarefa = TarefaFactory.novaTarefaRequest();
+    var save = tarefaService.save(salvarTarefa);
+
+    var updateTitulo = TarefaFactory.updateTitulo("Novo titulo atualizado");
+    var json = objectMapper.writeValueAsString(updateTitulo);
+
+    mockMvc.perform(
+            put(BASE_URI + "/{idTarefa}", save.id())
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(json)
+    )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.titulo").value(updateTitulo.titulo()));
+
+  }
+
+  @Test
+  public void atualizarTarefaDeveRetornarStatusOkQuandoEnviarSomenteDescricao() throws Exception {
+    var salvarTarefa = TarefaFactory.novaTarefaRequest();
+    var save = tarefaService.save(salvarTarefa);
+
+    var updateDescricao = TarefaFactory.updateDescricao("Novo descrição atualizado");
+    var json = objectMapper.writeValueAsString(updateDescricao);
+
+    mockMvc.perform(
+                    put(BASE_URI + "/{idTarefa}", save.id())
+                            .contentType(MediaType.APPLICATION_JSON_VALUE)
+                            .content(json)
+            )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.descricao").value(updateDescricao.descricao()));
+
+  }
+
+  @Test
+  public void atualizarTarefaDeveRetornarStatusOkQuandoEnviarSomenteStatus() throws Exception {
+    var salvarTarefa = TarefaFactory.novaTarefaRequest();
+    var save = tarefaService.save(salvarTarefa);
+
+    var updateStatus = TarefaFactory.updateStatus("pendente");
+    var json = objectMapper.writeValueAsString(updateStatus);
+
+    mockMvc.perform(
+                    put(BASE_URI + "/{idTarefa}", save.id())
+                            .contentType(MediaType.APPLICATION_JSON_VALUE)
+                            .content(json)
+            )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.status").value(updateStatus.status().toUpperCase()));
+
+  }
+
+  @Test
+  public void atualizarTarefaDeveRetornarStatusOkQuandoEnviarSomentePrioridade() throws Exception {
+    var salvarTarefa = TarefaFactory.novaTarefaRequest();
+    var save = tarefaService.save(salvarTarefa);
+
+    var updatePrioridade = TarefaFactory.updatePrioridade("critica");
+    var json = objectMapper.writeValueAsString(updatePrioridade);
+
+    mockMvc.perform(
+                    put(BASE_URI + "/{idTarefa}", save.id())
+                            .contentType(MediaType.APPLICATION_JSON_VALUE)
+                            .content(json)
+            )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.prioridade").value(updatePrioridade.prioridade().toUpperCase()));
+
+  }
+
+  @Test
+  public void atualizarTarefaDeveRetornarStatusNotFoundQuandoIdForInvalido() throws Exception {
+    var updatePrioridade = TarefaFactory.updatePrioridade("critica");
+    var json = objectMapper.writeValueAsString(updatePrioridade);
+
+    mockMvc.perform(
+                    put(BASE_URI + "/{idTarefa}", 1)
+                            .contentType(MediaType.APPLICATION_JSON_VALUE)
+                            .content(json)
+            )
+            .andExpect(status().isNotFound())
+            .andExpect(result -> assertInstanceOf(TarefaNotFoundException.class, result.getResolvedException()));
+
+  }
+
 }

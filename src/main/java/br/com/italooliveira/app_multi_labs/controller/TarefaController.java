@@ -1,5 +1,6 @@
 package br.com.italooliveira.app_multi_labs.controller;
 
+import br.com.italooliveira.app_multi_labs.dtos.TarefaUpdateRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,4 +20,7 @@ public interface TarefaController {
 
   @GetMapping
   ResponseEntity<List<TarefaResponseDto>> obterTodasTarefa();
+
+  @PutMapping("/{idTarefa}")
+  ResponseEntity<TarefaResponseDto> atualizarTarefa(@PathVariable Long idTarefa, @RequestBody TarefaUpdateRequestDto requestDto);
 }

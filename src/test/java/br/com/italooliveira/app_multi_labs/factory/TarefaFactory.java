@@ -1,6 +1,7 @@
 package br.com.italooliveira.app_multi_labs.factory;
 
 import br.com.italooliveira.app_multi_labs.dtos.TarefaRequestDto;
+import br.com.italooliveira.app_multi_labs.dtos.TarefaUpdateRequestDto;
 
 import java.util.List;
 
@@ -74,4 +75,32 @@ public class TarefaFactory {
     );
   }
 
+  public static TarefaUpdateRequestDto updateTarefaRequest(String titulo,
+                                                           String descricao,
+                                                           String status,
+                                                           String prioridade) {
+    return new TarefaUpdateRequestDto(
+            titulo,
+            descricao,
+            status,
+            prioridade
+    );
+  }
+
+  public static TarefaUpdateRequestDto updateTitulo(String titulo) {
+    return updateTarefaRequest(titulo, null, null, null);
+  }
+
+
+  public static TarefaUpdateRequestDto updateDescricao(String descricao) {
+    return updateTarefaRequest(null, descricao, null, null);
+  }
+
+  public static TarefaUpdateRequestDto updateStatus(String status) {
+    return updateTarefaRequest(null, null, status, null);
+  }
+
+  public static TarefaUpdateRequestDto updatePrioridade(String prioridade) {
+    return updateTarefaRequest(null, null, null, prioridade);
+  }
 }

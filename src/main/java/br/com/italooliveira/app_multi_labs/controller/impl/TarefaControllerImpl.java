@@ -3,6 +3,7 @@ package br.com.italooliveira.app_multi_labs.controller.impl;
 import java.net.URI;
 import java.util.List;
 
+import br.com.italooliveira.app_multi_labs.dtos.TarefaUpdateRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,6 +41,12 @@ public class TarefaControllerImpl implements TarefaController {
   @Override
   public ResponseEntity<List<TarefaResponseDto>> obterTodasTarefa() {
     return ResponseEntity.ok(tarefaService.getAll());
+  }
+
+  @Override
+  public ResponseEntity<TarefaResponseDto> atualizarTarefa(Long idTarefa, TarefaUpdateRequestDto requestDto) {
+    TarefaResponseDto tarefaAtualizada = tarefaService.update(idTarefa, requestDto);
+    return ResponseEntity.ok(tarefaAtualizada);
   }
 
 }

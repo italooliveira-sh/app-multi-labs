@@ -1,5 +1,6 @@
 package br.com.italooliveira.app_multi_labs.mapper;
 
+import br.com.italooliveira.app_multi_labs.dtos.TarefaUpdateRequestDto;
 import org.springframework.stereotype.Component;
 
 import br.com.italooliveira.app_multi_labs.dtos.TarefaRequestDto;
@@ -30,5 +31,25 @@ public class TarefaMapper {
             tarefa.getCriadoEm().toString()
     );
   }
-  
+
+  public Tarefa updateEnity(Tarefa tarefa, TarefaUpdateRequestDto requestDto) {
+
+    if (requestDto.titulo() != null) {
+      tarefa.setTitulo(requestDto.titulo());
+    }
+
+    if (requestDto.descricao() != null) {
+      tarefa.setDescricao(requestDto.descricao());
+    }
+
+    if (requestDto.status() != null) {
+      tarefa.setStatus(StatusTarefa.fromString(requestDto.status()));
+    }
+
+    if (requestDto.prioridade() != null) {
+      tarefa.setPrioridade(PrioridadeTarefa.fromString(requestDto.prioridade()));
+    }
+
+    return tarefa;
+  }
 }
