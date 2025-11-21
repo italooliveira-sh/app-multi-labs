@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import br.com.italooliveira.app_multi_labs.exception.PrioridadeTarefaInvalidaException;
 import br.com.italooliveira.app_multi_labs.exception.StatusTarefaInvalidaException;
+import br.com.italooliveira.app_multi_labs.exception.TarefaNotFoundException;
+import br.com.italooliveira.app_multi_labs.service.TarefaService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class TarefaControllerImplTest {
 
   @Autowired
   private TarefaRepository tarefaRepository;
+
+  @Autowired
+  private TarefaService tarefaService;
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -115,5 +120,35 @@ public class TarefaControllerImplTest {
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.path").value(BASE_URI))
             .andExpect(result -> assertInstanceOf(PrioridadeTarefaInvalidaException.class, result.getResolvedException()));
+  }
+
+  @Test
+  public void obterTarefaPeloIdDeveRetornarStatusOkQuandoIdTarefaValido() throws Exception {
+    var request = TarefaFactory.novaTarefaRequest();
+    var tarefaSalva = tarefaService.save(request);
+    var id = tarefaSalva.id();
+
+    mockMvc.perform(
+            get(BASE_URI + "/{idTarefa}", id)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+    )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value(id))
+            .andExpect(jsonPath("$.titulo").value(request.titulo()))
+            .andExpect(jsonPath("$.descricao").value(request.descricao()))
+            .andExpect(jsonPath("$.status").value("EM_ANDAMENTO"))
+            .andExpect(jsonPath("$.prioridade").value("BAIXA"))
+            .andExpect(jsonPath("$.criadoEm").isNotEmpty());
+  }
+
+  @Test
+  public void obterTarefaPeloIdDeveRetornarStatusNotFoundQuandoIdTarefaInvalido() throws Exception {
+    var id = 1000L;
+    mockMvc.perform(
+            get(BASE_URI + "/{idTarefa}", id)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+    )
+            .andExpect(status().isNotFound())
+            .andExpect(result -> assertInstanceOf(TarefaNotFoundException.class, result.getResolvedException()));
   }
 }
