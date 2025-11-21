@@ -1,5 +1,6 @@
 package br.com.italooliveira.app_multi_labs.service.impl;
 
+import br.com.italooliveira.app_multi_labs.dtos.TarefaUpdateRequestDto;
 import br.com.italooliveira.app_multi_labs.exception.TarefaNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,13 @@ public class TarefaServiceImpl implements TarefaService {
   @Override
   public List<TarefaResponseDto> getAll() {
     return tarefaRepository.findAll().stream().map(tarefaMapper::fromEntity).toList();
+  }
+
+  @Override
+  public TarefaResponseDto update(Long idTarefa, TarefaUpdateRequestDto requestDto) {
+    Tarefa tarefa = findTarefaById(idTarefa);
+    Tarefa tarefaAtualizada = tarefaRepository.save(tarefaMapper.updateEnity(tarefa, requestDto));
+    return tarefaMapper.fromEntity(tarefaAtualizada);
   }
 
   private Tarefa findTarefaById(Long idTarefa) {
