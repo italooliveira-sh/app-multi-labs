@@ -12,6 +12,8 @@ import br.com.italooliveira.app_multi_labs.repository.TarefaRepository;
 import br.com.italooliveira.app_multi_labs.service.TarefaService;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TarefaServiceImpl implements TarefaService {
@@ -30,6 +32,11 @@ public class TarefaServiceImpl implements TarefaService {
   @Transactional(readOnly = true)
   public TarefaResponseDto getById(Long idTarefa) {
     return tarefaMapper.fromEntity(findTarefaById(idTarefa));
+  }
+
+  @Override
+  public List<TarefaResponseDto> getAll() {
+    return tarefaRepository.findAll().stream().map(tarefaMapper::fromEntity).toList();
   }
 
   private Tarefa findTarefaById(Long idTarefa) {

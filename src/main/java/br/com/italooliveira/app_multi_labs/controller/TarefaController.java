@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import br.com.italooliveira.app_multi_labs.dtos.TarefaRequestDto;
 import br.com.italooliveira.app_multi_labs.dtos.TarefaResponseDto;
 
+import java.util.List;
+
 @RequestMapping("/api/tarefa")
 public interface TarefaController {
   
@@ -14,4 +16,7 @@ public interface TarefaController {
 
   @GetMapping("/{idTarefa}")
   ResponseEntity<TarefaResponseDto> obterTarefaPeloId(@PathVariable Long idTarefa);
+
+  @GetMapping
+  ResponseEntity<List<TarefaResponseDto>> obterTodasTarefa();
 }
