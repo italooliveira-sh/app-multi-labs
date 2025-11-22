@@ -36,15 +36,23 @@ public class TarefaServiceImpl implements TarefaService {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<TarefaResponseDto> getAll() {
     return tarefaRepository.findAll().stream().map(tarefaMapper::fromEntity).toList();
   }
 
   @Override
+  @Transactional
   public TarefaResponseDto update(Long idTarefa, TarefaUpdateRequestDto requestDto) {
     Tarefa tarefa = findTarefaById(idTarefa);
     Tarefa tarefaAtualizada = tarefaRepository.save(tarefaMapper.updateEnity(tarefa, requestDto));
     return tarefaMapper.fromEntity(tarefaAtualizada);
+  }
+
+  @Override
+  public void delete(Long idTarefa) {
+    Tarefa tarefa = findTarefaById(idTarefa);
+    tarefaRepository.delete(tarefa);
   }
 
   private Tarefa findTarefaById(Long idTarefa) {

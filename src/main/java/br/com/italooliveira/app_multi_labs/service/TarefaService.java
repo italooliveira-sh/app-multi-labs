@@ -15,5 +15,7 @@ public interface TarefaService {
   List<TarefaResponseDto> getAll();
 
   TarefaResponseDto update(Long idTarefa, TarefaUpdateRequestDto requestDto);
+
+  void delete(Long idTarefa);
   
 }
