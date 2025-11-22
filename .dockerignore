@@ -1,0 +1,22 @@
+# Diretórios de build/compilação gerados (já estão no .gitignore)
+**/bin/
+**/build/
+
+# Diretórios de cache e ferramentas do Gradle (não são necessários para o build no contêiner)
+.gradle/
+
+# Arquivos/Diretórios de controle de versão
+.git/
+.gitignore
+.gitattributes
+
+# Arquivos de IDEs e Editores
+.idea/
+.vscode/
+HELP.md
+sonar-project.properties
+
+# Arquivos de ambiente e configuração de orquestração local (não devem ir para o build)
+.env
+.env.example
+docker-compose.yaml
