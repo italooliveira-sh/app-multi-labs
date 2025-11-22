@@ -23,4 +23,7 @@ public interface TarefaController {
 
   @PutMapping("/{idTarefa}")
   ResponseEntity<TarefaResponseDto> atualizarTarefa(@PathVariable Long idTarefa, @RequestBody TarefaUpdateRequestDto requestDto);
+
+  @DeleteMapping("/{idTarefa}")
+  ResponseEntity<Void> deletarTarefa(@PathVariable Long idTarefa);
 }

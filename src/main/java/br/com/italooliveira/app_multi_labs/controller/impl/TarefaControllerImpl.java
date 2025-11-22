@@ -49,4 +49,10 @@ public class TarefaControllerImpl implements TarefaController {
     return ResponseEntity.ok(tarefaAtualizada);
   }
 
+  @Override
+  public ResponseEntity<Void> deletarTarefa(Long idTarefa) {
+    tarefaService.delete(idTarefa);
+    return ResponseEntity.noContent().build();
+  }
+
 }
