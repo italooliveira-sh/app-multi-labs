@@ -1,5 +1,6 @@
 package br.com.italooliveira.app_multi_labs.controller.impl;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -263,6 +264,28 @@ public class TarefaControllerImplTest {
             .andExpect(status().isNotFound())
             .andExpect(result -> assertInstanceOf(TarefaNotFoundException.class, result.getResolvedException()));
 
+  }
+
+  @Test
+  public void deletarTarefaDeveRetornarStatusNoContentQuandoOIdForValido() throws Exception {
+    var request = TarefaFactory.novaTarefaRequest();
+    var tarefaSalva = tarefaService.save(request);
+
+    mockMvc.perform(
+            delete(BASE_URI + "/{idTarefa}", tarefaSalva.id())
+    )
+            .andExpect(status().isNoContent());
+
+    assertFalse(tarefaRepository.findById(tarefaSalva.id()).isPresent());
+  }
+
+  @Test
+  public void deletarTarefaDeveRetornarStatusNotFoundQuandoOIdForInvalido() throws Exception {
+
+    mockMvc.perform(
+            delete(BASE_URI + "/{idTarefa}", 1)
+    )
+            .andExpect(status().isNotFound());
   }
 
 }
